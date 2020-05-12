@@ -1,7 +1,9 @@
 # matplotlib-terminal
-Matplotlib backend to plot in terminal using matrach/img2unicode
+Matplotlib backend to plot in terminal using [matrach/img2unicode](https://github.com/matrach/img2unicode)
 
-This is in proof of concept stage, stay tuned!
+This is in proof of concept stage, so stay tuned!
+The library is optimized for Gnome Terminal with Ubuntu Mono font.
+Nevertheless `'block'` and `'braille'` renderers should work with most modern terminals.
 
 Install it with:
 ```bash
@@ -22,7 +24,7 @@ plt.scatter([0], [.5])
 
 plt.show()
 plt.show('gamma') # Use RendererGamma-fast/noblock from img2unicode renderer
-plt.show('block') # Use Renderer-fast/block from img2unicode 
+plt.show('block') # Use Renderer-fast/block from img2unicode, dual color!
 plt.show('braille') # Use RendererGamma-fast/braille from img2unicode renderer
 plt.close()
 ```
@@ -34,3 +36,8 @@ Block renderer:
 ![block renderer](block.png)
 Braille renderer:
 ![braille renderer](braille.png)
+
+## TODO
+
+ - [ ] figure out how to configure the lib in matplotlib-ish way (eg. rcParams)
+ - [ ] allow to specify figure size in terms of cells
