@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(name='matplitlib-terminal',
-    version='0.1a1',
+setup(name='matplotlib-terminal',
+    version='0.1a2',
     description='Render matplotlib plots in terminal.',
     long_description=long_description,
     long_description_content_type="text/markdown",
