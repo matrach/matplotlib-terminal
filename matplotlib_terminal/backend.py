@@ -63,6 +63,10 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
 
         arr = np.asarray(self.renderer.buffer_rgba())
         img = PIL.Image.fromarray(arr, 'RGBA')
+        logging.debug("Max h %s ,w %s", h, w)
+        # Hax
+        self.R.max_h = h/16
+        self.R.max_w = w/8
         # img.save('xxx2.png')
         self.chars, self.fores, self.backs = self.R.render_numpy(img)
         self.substitute_text(max(w/self.R.max_w, h/self.R.max_h/2))
@@ -91,10 +95,10 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
                     c2 = c.upper()
                     if 'A' <= c2 <= 'Z':
                         char = ord(c2) + serif_letc - ord('A')
-                if size > 12:
+                if size > 14:
                     if '!' <= c <= chr(125):
                         char += wide_ascii - ord('!')
-                        print(char)
+                        # print(char)
                     elif c == ' ':
                         char = 0x3000
                     if unicodedata.east_asian_width(chr(char)) == 'F':
@@ -109,7 +113,16 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
 
     def print_terminal(self, rendering='gamma'):
         self.draw(rendering=rendering)
-        self.R.print_to_terminal(sys.stdout, self.chars, self.fores, self.backs)
+        self.R.print_to_terminal(sys.stdout, self.chars, self.fores, self.backs,
+                                 **({'sentinel':''} if rendering == 'block' else {}))
+
+    def get_default_filetype(self):
+        return 'txt'
+
+    def print_txt(self, filename_or_obj, *args, rendering='gamma', **kwargs):
+        self.draw(rendering=rendering)
+        self.R.print_to_terminal(filename_or_obj, self.chars, self.fores, self.backs,
+                                 **({'sentinel':''} if rendering == 'block' else {}))
 
 
     def get_renderer(self, cleared=False):
