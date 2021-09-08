@@ -6,9 +6,15 @@ The library is optimized for Gnome Terminal with Ubuntu Mono font.
 Nevertheless `'block'` and `'braille'` renderers should work with most modern terminals.
 
 Install it with:
-```bash
-pip install matplotlib-terminal
+```sh
+$ pip install matplotlib-terminal
 ```
+
+To speed ~10x up the ``braille`` and ``gamma`` renderers, install an optional dependency of ``img2unicode``:
+```sh
+$ pip install 'img2unicode[n2]'
+```
+
 
 Usage:
 ```python

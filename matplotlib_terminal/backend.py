@@ -41,9 +41,9 @@ wide_ascii = ord('！')
 
 
 optimizers = {
-    'gamma': img2unicode.GammaRenderer(img2unicode.FastGammaOptimizer(True, 'no_block'), max_h=60, max_w=180, allow_upscale=True),
+    'gamma': img2unicode.GammaRenderer(img2unicode.BestGammaOptimizer(True, 'no_block'), max_h=60, max_w=180, allow_upscale=True),
     'block': img2unicode.Renderer(img2unicode.FastGenericDualOptimizer('block'), max_h=60, max_w=180, allow_upscale=True),
-    'braille': img2unicode.GammaRenderer(img2unicode.FastGammaOptimizer(True, 'braille'), max_h=60, max_w=180, allow_upscale=True),
+    'braille': img2unicode.GammaRenderer(img2unicode.BestGammaOptimizer(True, 'braille'), max_h=60, max_w=180, allow_upscale=True),
 }
 
 class FigureCanvasUnicodeAgg(FigureCanvasBase):
@@ -67,20 +67,15 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
         # Hax
         self.R.max_h = h/16
         self.R.max_w = w/8
-        # img.save('xxx2.png')
         self.chars, self.fores, self.backs = self.R.render_numpy(img)
         self.substitute_text(max(w/self.R.max_w, h/self.R.max_h/2))
 
     def substitute_text(self, scale):
         from img2unicode import unicodeit
         for x, y, s, size, ismath, col in self.renderer.texts:
-            # print(scale, x, y, x/scale, y/(scale*2))
             xi, yi = int(round(x // scale)), int(round(y // (scale*2) ))
-            # print(yi, xi, s, size)
-            #     print(max(chrs.keys()))
             if ismath and True:
                 s = unicodeit.replace(s[1:-1])
-                print(s)
             for i, c in enumerate(s):
                 char = ord(c)
                 if yi >= self.chars.shape[0] or xi+i >= self.chars.shape[1]:
@@ -98,7 +93,6 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
                 if size > 14:
                     if '!' <= c <= chr(125):
                         char += wide_ascii - ord('!')
-                        # print(char)
                     elif c == ' ':
                         char = 0x3000
                     if unicodedata.east_asian_width(chr(char)) == 'F':
@@ -106,7 +100,6 @@ class FigureCanvasUnicodeAgg(FigureCanvasBase):
                         if xi+i+1 >= self.chars.shape[1]:
                             continue
                         self.chars[yi, xi + i + 1] = ord('\N{ZERO WIDTH SPACE}')
-                # print("Updating ", yi, xi+i, "with", chr(char))
                 self.chars[yi, xi + i] = char
                 self.fores[yi, xi + i] = col * 255  # np.array((1, 1, 1))
 
