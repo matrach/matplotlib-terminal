@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='matplotlib-terminal',
-    version='0.1a3',
+    version='0.1a4',
     description='Render matplotlib plots in terminal.',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -15,7 +15,7 @@ setup(name='matplotlib-terminal',
     packages=find_packages(),
     install_requires=[
         'matplotlib',
-        'img2unicode',
+        'img2unicode>=0.1a8',
     ],
     extras_require={
         'develop': [
