@@ -15,8 +15,11 @@ To speed ~10x up the ``braille`` and ``gamma`` renderers, install an optional de
 $ pip install 'img2unicode[n2]'
 ```
 
+## Alternatives, which operate on raster output
+- https://github.com/jktr/matplotlib-backend-notcurses
+- https://github.com/jktr/matplotlib-backend-kitty
 
-Usage:
+## Usage:
 ```python
 import matplotlib_terminal
 import matplotlib.pyplot as plt
@@ -47,3 +50,5 @@ Braille renderer:
 
  - [ ] figure out how to configure the lib in matplotlib-ish way (eg. rcParams)
  - [ ] allow to specify figure size in terms of cells
+ - [ ] compare with alternatives 
+ - [ ] auto select backend from alternatives
